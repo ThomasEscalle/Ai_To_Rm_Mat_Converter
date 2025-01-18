@@ -165,6 +165,67 @@ def processNode_AiSS_To_PxrSurface(node, expectedType="3"):
             return pxrBump + ".resultN"
         elif(expectedType == "1"):
             return pxrBump + ".resultN"
+        
+    # If the node is a multiplyDivide node , convert it to PxrMultiply
+    elif(nodeType == "multiplyDivide"):
+        # Create a PxrMultiply Node
+        pxrMultiply = cmds.shadingNode("PxrMultiply", asTexture=True)
+        # Rename the PxrMultiply Node
+        pxrMultiply = cmds.rename(pxrMultiply, "PxrM_" + node)
+
+        # Copy the input1 values
+        input1 = cmds.getAttr(node + ".input1")[0]
+        cmds.setAttr(pxrMultiply + ".input1", input1[0], input1[1], input1[2], type="float3")
+        # Copy the input2 values
+        input2 = cmds.getAttr(node + ".input2")[0]
+        cmds.setAttr(pxrMultiply + ".input2", input2[0], input2[1], input2[2], type="float3")
+
+        # Check if there is a connection to the input1 input
+        input1Input = cmds.listConnections(node + ".input1")
+        if input1Input:
+            # Process the connection
+            output = processNode_AiSS_To_PxrSurface(input1Input[0])
+            # Connect the output to the PxrMultiply Node
+            cmds.connectAttr(output, pxrMultiply + ".input1", force=True)
+
+        # Check if there is a connection to the input2 input
+        input2Input = cmds.listConnections(node + ".input2")
+        if input2Input:
+            # Process the connection
+            output = processNode_AiSS_To_PxrSurface(input2Input[0])
+            # Connect the output to the PxrMultiply Node
+            cmds.connectAttr(output, pxrMultiply + ".input2", force=True)
+
+        # Connect the PxrMultiply Node to the PxrSurface Node
+        if(expectedType == "3"):
+            return pxrMultiply + ".resultRGB"
+        elif(expectedType == "1"):
+            return pxrMultiply + ".resultR"
+        
+    # If the node is a color correct node , convert it to PxrColorCorrect
+    elif(nodeType == "aiColorCorrect"):
+        # Create a PxrColorCorrect Node
+        pxrColorCorrect = cmds.shadingNode("PxrColorCorrect", asTexture=True)
+        # Rename the PxrColorCorrect Node
+        pxrColorCorrect = cmds.rename(pxrColorCorrect, "PxrCC_" + node)
+
+        # Copy the input values
+        input = cmds.getAttr(node + ".input")[0]
+        cmds.setAttr(pxrColorCorrect + ".inputRGB", input[0], input[1], input[2], type="float3")
+
+        # Check if there is a connection to the input input
+        inputInput = cmds.listConnections(node + ".input")
+        if inputInput:
+            # Process the connection
+            output = processNode_AiSS_To_PxrSurface(inputInput[0])
+            # Connect the output to the PxrColorCorrect Node
+            cmds.connectAttr(output, pxrColorCorrect + ".inputRGB", force=True)
+
+        # Connect the PxrColorCorrect Node to the PxrSurface Node
+        if(expectedType == "3"):
+            return pxrColorCorrect + ".resultRGB"
+        elif(expectedType == "1"):
+            return pxrColorCorrect + ".resultR"
 
 
 def AiSS_To_PxrSurface():

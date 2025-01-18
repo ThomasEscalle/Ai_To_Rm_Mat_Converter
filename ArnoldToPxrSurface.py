@@ -26,6 +26,8 @@ def processNode_AiSS_To_PxrSurface(node, expectedType="3"):
         fileTextureName = fileTexturePath.replace("\\", "/").split("/")[-1]
         fileTextureName = fileTexturePath.split("/")[-1]
 
+
+
         # Get the path to the current project
         projectPath = cmds.workspace(q=True, rootDirectory=True)
 
@@ -35,6 +37,11 @@ def processNode_AiSS_To_PxrSurface(node, expectedType="3"):
 
 
         cmds.setAttr(pxrTexture + ".filename", fileTexturePath, type="string")
+
+
+        # If the image is a .jpg or .png file, Set Linearize to 1
+        if fileTextureName.endswith(".jpg") or fileTextureName.endswith(".png"):
+            cmds.setAttr(pxrTexture + ".linearize", 1)
 
         # Connect the PxrTexture Node to the PxrSurface Node
         if(expectedType == "3"):

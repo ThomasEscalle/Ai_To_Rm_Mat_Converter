@@ -16,7 +16,7 @@ For now, it only works for AiStandardSurface, and some simple nodes like :
 
 # How to install
 
-1. Copy paste the content of ArnoldToPxrSurface.py in a new python script in Maya.
+1. Copy paste the content of [ArnoldToPxrSurface.py](https://github.com/ThomasEscalle/Ai_To_Rm_Mat_Converter/blob/main/ArnoldToPxrSurface.py) in a new script editor in Maya.
 2. Select the content of the script and press the "Save Script to Shelf" button in the script editor.
 3. A new button will appear in the shelf. You can now click on it to launch the script.
 

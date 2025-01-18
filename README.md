@@ -10,5 +10,5 @@ For now, it only works for AiStandardSurface, and some simple nodes like :
 - RemapValue
 
 
-# Demo video
-[![Demo video](https://img.youtube.com/vi/Kw9gQE1Ob9I/hqdefault.jpg)] (https://www.youtube.com/watch?v=Kw9gQE1Ob9I)
+
+[![Demo video](https://img.youtube.com/vi/Kw9gQE1Ob9I/hqdefault.jpg)](https://www.youtube.com/watch?v=Kw9gQE1Ob9I)
